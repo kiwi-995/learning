@@ -6,7 +6,6 @@
   - `rust-compiler-course/`: course content plus the `rusty/` Rust project.
   - `rust-gui-framework-course/`: Markdown lectures and exercises.
   - `scala-kurs-se/`: German-language lecture notes and exercises.
-  - `rust/`: currently empty placeholder.
 - Rust source lives in `rust-compiler-course/rusty/src/`. Course notes are Markdown in `lectures/`, `appendices/`, `resources/`, and `exercises/` subfolders.
 
 ## Build, Test, and Development Commands
