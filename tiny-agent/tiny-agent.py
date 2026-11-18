@@ -45,7 +45,7 @@ def return_output():
             console.print(Markdown("# THINKING"))
             console.print(Markdown(block.thinking))
     
-        if block.type == "text":
+        elif block.type == "text":
             console.print(Markdown("# ANSWER"))
             console.print(Markdown(block.text))
 
@@ -56,7 +56,12 @@ def return_output():
 
 
 def call_inference_endpoint():
-    return client.messages.create(model=MODEL, max_tokens=MAX_TOKENS, messages=MESSAGES)
+    return client.messages.create(
+        model=MODEL,
+        max_tokens=MAX_TOKENS,
+        messages=MESSAGES,
+        thinking={"type": "adaptive", "display": "summarized"}
+    )
 
 if __name__=="__main__":
     main_loop()
