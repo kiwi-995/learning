@@ -10,32 +10,49 @@ MAX_TOKENS = 16000
 MESSAGES = []
 
 def main_loop():
-    while True:
-        prompt = input("> ")
-        
-        if prompt == "exit":
-            return
-        
-        MESSAGES.append({
-            "role": "user",
-            "content": prompt
-        })
+    loop = True
 
-        # send prompt to server and receive answer
-        answer = call_inference_endpoint()
-        
-        answer_reasoning = ""
-        answer_text = "".join([t.text for t in answer.content if t.type == "text"])
-        
-        console.print(Markdown(answer_text))
-        
-        print("DEBUG:")
-        console.print(answer)
+    while loop:
+        loop = get_input()
 
-        MESSAGES.append({
-            "role": "assistant",
-            "content": answer.content
-        })
+        if loop:
+            return_output()
+
+
+def get_input():
+    prompt = input("> ")
+    
+    if prompt == "exit":
+        return False
+    
+    MESSAGES.append({
+        "role": "user",
+        "content": prompt
+    })
+
+    return True
+
+
+def return_output():
+    # send prompt to server and receive answer
+    answer = call_inference_endpoint()
+    
+    console.print(Markdown("# DEBUG"))
+    console.print(answer.content)
+
+    for block in answer.content:
+        if block.type == "thinking":
+            console.print(Markdown("# THINKING"))
+            console.print(Markdown(block.thinking))
+    
+        if block.type == "text":
+            console.print(Markdown("# ANSWER"))
+            console.print(Markdown(block.text))
+
+    MESSAGES.append({
+        "role": "assistant",
+        "content": answer.content
+    })
 
 
 def call_inference_endpoint():
